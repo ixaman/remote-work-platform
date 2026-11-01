@@ -4,14 +4,17 @@ export default function JobCard({ job, categoryName }: { job: Job; categoryName:
   return (
     <article className="job-card" aria-labelledby={`title-${job.id}`}>
       <p className="sample-badge">Sample only — no active opening shown</p>
-      <h3 id={`title-${job.id}`}>{job.title}</h3>
+      <h3 id={`title-${job.id}`}><a href={`/jobs/${encodeURIComponent(job.id)}`}>{job.title}</a></h3>
       <p className="job-category">{categoryName}</p>
       <dl className="job-details">
         <div><dt>Company/source</dt><dd>{job.company_source}</dd></div>
         <div><dt>Location/eligibility</dt><dd>{job.location_eligibility}</dd></div>
       </dl>
       <p className="job-description">{job.description}</p>
-      <a className="button" href={job.application_url} target="_blank" rel="noopener noreferrer">Apply<span className="sr-only"> for {job.title} (opens in a new tab)</span></a>
+      <div className="job-card-actions">
+        <a className="button" href={job.application_url} target="_blank" rel="noopener noreferrer">Apply<span className="sr-only"> for {job.title} (opens in a new tab)</span></a>
+        <a className="button button-outline" href={`/jobs/${encodeURIComponent(job.id)}`}>View<span className="sr-only"> {job.title}</span></a>
+      </div>
     </article>
   );
 }

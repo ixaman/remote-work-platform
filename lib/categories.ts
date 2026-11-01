@@ -1,5 +1,12 @@
 import { categories, jobs } from "./fixtures";
 
+export async function getJobById(id: string) {
+  const job = jobs.find((item) => item.id === id && item.status === "published");
+  if (!job) return null;
+  const category = await getCategoryBySlug(job.category_slug);
+  return category ? { ...job, category } : null;
+}
+
 // Keep public category reads here so the fixture source can be replaced by Supabase.
 export async function getCategoryBySlug(slug: string) {
   return categories.find((category) => category.slug === slug && category.status === "published");

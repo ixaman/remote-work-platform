@@ -147,6 +147,7 @@ h3 { font-family: var(--font-serif), Georgia, serif; font-size: 20px; line-heigh
 .job-details dt { font-weight: 600; margin-bottom: 4px; }
 .job-details dd { margin: 0; }
 .job-description { margin: 0 0 28px; }
+.job-card-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .empty-state { margin: 0; }
 @media (max-width: 760px) {
   .job-categories, .job-listings { padding-block: 56px; }
