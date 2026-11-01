@@ -2,12 +2,14 @@ import Image from "next/image";
 import SiteHeader from "./site-header";
 import JobBrowsing from "./job-browsing";
 import ResourceAccordion from "./resource-accordion";
-import { categories, jobs } from "../lib/fixtures";
+import { categories } from "../lib/fixtures";
+import { getCategoryBySlug, getJobsByCategory } from "../lib/categories";
 import SiteFooter from "./site-footer";
 
-export default function HomePage() {
-  const homeCategories = categories.filter((category) => category.status === "published")
-    .sort((a, b) => a.sort_order - b.sort_order).slice(0, 4);
+export default async function HomePage() {
+  const categoryResults = await Promise.all(categories.map((category) => getCategoryBySlug(category.slug)));
+  const publishedCategories = categoryResults.filter((category) => category !== undefined);
+  const jobs = (await Promise.all(publishedCategories.map((category) => getJobsByCategory(category.slug)))).flat();
 
   return (
     <>
@@ -29,7 +31,7 @@ export default function HomePage() {
             <Image className="hero-illustration" src="/images/remote-work-illustration.png" alt="" width={569} height={428} priority />
           </div>
         </section>
-        <JobBrowsing categories={homeCategories} jobs={jobs} />
+        <JobBrowsing categories={publishedCategories} jobs={jobs} />
         <section id="resources" className="resources supporting-section" aria-labelledby="resources-title" tabIndex={-1}>
           <div className="container">
             <p className="eyebrow">Practical support</p>

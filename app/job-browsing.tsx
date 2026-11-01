@@ -10,8 +10,12 @@ const roles = ["Data Entry", "Customer Service", "Healthcare", "Technical Suppor
 
 export default function JobBrowsing({ categories, jobs }: { categories: Category[]; jobs: Job[] }) {
   const [selected, setSelected] = useState("all");
-  const publishedCategories = categories.filter((category) => category.status === "published").sort((a, b) => a.sort_order - b.sort_order);
-  const visibleJobs = jobs.filter((job) => job.status === "published" && publishedCategories.some((category) => category.slug === job.category_slug) && (selected === "all" || job.category_slug === selected));
+  const allCategories = categories.filter((category) => category.status === "published").sort((a, b) => a.sort_order - b.sort_order);
+  const publishedCategories = allCategories.slice(0, 4);
+  const publishedJobs = jobs.filter((job) => job.status === "published" && allCategories.some((category) => category.slug === job.category_slug));
+  const categoryJobs = publishedJobs.filter((job) => selected === "all" || job.category_slug === selected);
+  const visibleJobs = [...categoryJobs].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)).slice(0, 5);
+  const selectedCategory = publishedCategories.find((category) => category.slug === selected);
 
   return (
     <>
@@ -32,7 +36,8 @@ export default function JobBrowsing({ categories, jobs }: { categories: Category
                 <span className="category-icon" aria-hidden="true">{icons[category.sort_order]}</span>
                 <h3><button type="button" className="category-select" aria-pressed={selected === category.slug} aria-controls="job-results" onClick={() => setSelected(category.slug)}>{category.name}</button></h3>
                 <p>{category.description}</p>
-                <a className="guidance-link" href="#job-listings" onClick={() => setSelected(category.slug)}>{category.slug === "international" ? "View WFH jobs list" : "View guidance"}<span className="sr-only">: {category.name}</span></a>
+                <a className="guidance-link" href={`/categories/${category.slug}`} onClick={() => setSelected(category.slug)}>{category.slug === "international" ? "View WFH jobs list" : "View guidance"}<span className="sr-only">: {category.name}</span></a>
+                <span> · {publishedJobs.filter((job) => job.category_slug === category.slug).length} {publishedJobs.filter((job) => job.category_slug === category.slug).length === 1 ? "job" : "jobs"}</span>
               </article>
             ))}
           </div>
@@ -60,8 +65,11 @@ export default function JobBrowsing({ categories, jobs }: { categories: Category
           <div id="job-results" className="job-results" role="region" aria-label="Job listings">
             <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{visibleJobs.length === 0 ? "No jobs in this category yet." : `${visibleJobs.length} sample jobs shown. ${selected === "all" ? "All categories" : publishedCategories.find((category) => category.slug === selected)?.name}.`}</p>
             {visibleJobs.length === 0 ? <p className="job-card empty-state">No jobs in this category yet.</p> : visibleJobs.map((job) => (
-              <JobCard key={job.id} job={job} categoryName={publishedCategories.find((category) => category.slug === job.category_slug)?.name} />
+              <JobCard key={job.id} job={job} categoryName={allCategories.find((category) => category.slug === job.category_slug)?.name} />
             ))}
+            {selectedCategory && (
+              <a className="guidance-link" href={`/categories/${selectedCategory.slug}`}>View all {categoryJobs.length} jobs in {selectedCategory.name} →</a>
+            )}
           </div>
         </div>
       </section>
