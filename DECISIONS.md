@@ -1,4 +1,10 @@
-- Categories = the four guidance cards: International Remote Jobs, Non-Phone & Low-Phone Jobs, 1099 / Contract Opportunities, Side Hustles / Flexible Extra Income.
+- Direction: a straightforward job posting site. Wording shifts from "guidance" to jobs. Any copy changes need Marissa's approval before launch.
+- Categories are created by Marissa in the admin; they are not fixed to four.
+- Homepage shows the first four published categories (by sort order) as cards with their published job counts, plus a "View all categories" link.
+- Selecting a category card highlights it and previews up to 5 of its newest jobs on the homepage, with a "View all N jobs" link to /categories/[slug]. With nothing selected, show the 5 newest jobs overall.
+- New public routes: /categories (all categories with counts) and /categories/[slug] (all jobs in that category). No job detail pages in v1; Apply goes to the external URL.
+- Compact job cards. Empty states and mobile layouts are required.
+- The homepage filter pills and static role chips are removed. They can return later as real categories if Marissa asks.
 - One category per job.
 - Resources, Success Stories, Newsletter and footer stay static as in the design. Admin manages only categories and jobs.
 - Real job cards replace the listing template in the Listings section, same visual style.

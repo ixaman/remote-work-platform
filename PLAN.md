@@ -42,11 +42,13 @@ Visual observations: pale mint hero/backgrounds, off-white header, dark teal tex
 
 Proposed minimal route structure, subject to the design questions above:
 - `/`: public homepage with the verified design sections and published categories/jobs. Use anchor navigation to the observed section IDs. Category browsing can update the listing area on this page; no search or advanced filters.
+- `/categories`: public list of all published categories with published job counts. Public category routes are now in scope.
+- `/categories/[slug]`: public list of all published jobs in that category.
 - `/login`: private admin sign-in entry point; no public registration.
 - `/admin`: redirect to the jobs manager or a simple management landing screen.
 - `/admin/jobs`, `/admin/jobs/new`, `/admin/jobs/[id]/edit`.
 - `/admin/categories`, `/admin/categories/new`, `/admin/categories/[id]/edit`.
-- Auth callback/recovery handling only as needed by the selected sign-in method. No public job-detail or category-detail routes unless the confirmed design needs them.
+- Auth callback/recovery handling only as needed by the selected sign-in method. No public job-detail routes in v1; Apply goes to the external URL.
 
 Public components: SiteHeader, AnchorNavigation, MobileMenu, Hero, CategoryGrid, CategoryCard, simple CategorySelector, JobList, JobCard with external ApplyLink, Footer, and accessible empty/loading/error states. Preserve the observed guidance chips, lead checklist, template/copy control, ResourceAccordion, story placeholders and inactive alerts section only according to the agreed scope; do not invent content or activate excluded features.
 
