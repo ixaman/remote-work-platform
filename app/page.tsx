@@ -2,7 +2,8 @@ import Image from "next/image";
 import SiteHeader from "./site-header";
 import JobBrowsing from "./job-browsing";
 import ResourceAccordion from "./resource-accordion";
-import SiteFooter from "./site-footer";
+import { categories, jobs } from "../lib/fixtures";
+import { navigation } from "./navigation";
 
 export default function HomePage() {
   return (
@@ -15,7 +16,7 @@ export default function HomePage() {
             <div className="hero-copy">
               <p className="eyebrow">A clearer path to remote work</p>
               <h1 id="hero-title">Find Real Work From Home Opportunities.</h1>
-              <p className="hero-introduction">A welcoming community sharing free job leads, practical advice, and career support. Start with jobs by category, then check every opportunity for yourself.</p>
+              <p className="hero-introduction">A welcoming community sharing free job leads, practical advice, and career support. Start with clear guidance, then check every opportunity for yourself.</p>
               <div className="hero-actions">
                 <a className="button" href="#job-categories">Browse Job Categories</a>
                 <a className="button button-outline" href="#newsletter">Join Job Alerts</a>
@@ -25,7 +26,7 @@ export default function HomePage() {
             <Image className="hero-illustration" src="/images/remote-work-illustration.png" alt="" width={569} height={428} priority />
           </div>
         </section>
-        <JobBrowsing />
+        <JobBrowsing categories={categories} jobs={jobs} />
         <section id="resources" className="resources supporting-section" aria-labelledby="resources-title" tabIndex={-1}>
           <div className="container">
             <p className="eyebrow">Practical support</p>
@@ -60,7 +61,20 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-      <SiteFooter />
+      <footer className="site-footer">
+        <div className="container footer-inner">
+          <div className="footer-copy">
+            <p className="footer-brand">Real Work From Home Jobs | Advice, Tips &amp; Fresh Leads</p>
+            <p>We share leads with clear requirements and encourage members to verify every opening independently.</p>
+            <p>This site does not guarantee hiring, pay, eligibility, or legitimacy beyond the information provided.</p>
+            <blockquote>“A little clarity makes room for a better next step.”</blockquote>
+          </div>
+          <nav className="footer-nav" aria-labelledby="quick-links-title">
+            <h2 id="quick-links-title">Quick links</h2>
+            <ul>{navigation.map(([label, id]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}</ul>
+          </nav>
+        </div>
+      </footer>
     </>
   );
 }
