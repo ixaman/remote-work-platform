@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { navigation } from "./navigation";
 
 export default function SiteHeader({ homeLinks = false }: { homeLinks?: boolean }) {
-  const hrefFor = (id: string) => id === "job-listings" ? "/jobs" : homeLinks ? (id === "home" ? "/" : `/#${id}`) : `#${id}`;
+  const hrefFor = (id: string) => id === "job-categories" ? "/categories" : id === "job-listings" ? "/jobs" : homeLinks ? (id === "home" ? "/" : `/#${id}`) : `#${id}`;
   const [open, setOpen] = useState(false);
   const header = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
