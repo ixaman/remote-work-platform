@@ -1,5 +1,7 @@
 import Image from "next/image";
 import SiteHeader from "./site-header";
+import JobBrowsing from "./job-browsing";
+import { categories, jobs } from "../lib/fixtures";
 import { navigation } from "./navigation";
 
 export default function HomePage() {
@@ -23,7 +25,8 @@ export default function HomePage() {
             <Image className="hero-illustration" src="/images/remote-work-illustration.png" alt="" width={569} height={428} priority />
           </div>
         </section>
-        {navigation.slice(1).map(([label, id]) => (
+        <JobBrowsing categories={categories} jobs={jobs} />
+        {navigation.slice(3).map(([label, id]) => (
           <section key={id} id={id} className="section-placeholder" aria-label={label} tabIndex={-1} />
         ))}
       </main>
