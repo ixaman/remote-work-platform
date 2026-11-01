@@ -1,0 +1,7 @@
+- Categories = the four guidance cards: International Remote Jobs, Non-Phone & Low-Phone Jobs, 1099 / Contract Opportunities, Side Hustles / Flexible Extra Income.
+- One category per job.
+- Resources, Success Stories, Newsletter and footer stay static as in the design. Admin manages only categories and jobs.
+- Real job cards replace the listing template in the Listings section, same visual style.
+- Pay, schedule and employment type go in the job description (no separate fields).
+- No image uploads in v1. Remove the image fields and bucket from the plan.
+- Vercel Hobby eligibility must be confirmed before launch.

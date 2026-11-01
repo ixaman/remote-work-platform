@@ -1,6 +1,6 @@
 # Remote Work Platform: PLAN
 
-Planning baseline: 1 November 2026. This document proposes future work; it does not authorize installations, account setup, deployment, purchases, or contacting anyone.
+Planning baseline: 1 November 2026. DECISIONS.md records the confirmed v1 scope and takes precedence over earlier open questions below. This document proposes future work; it does not authorize installations, account setup, deployment, purchases, or contacting anyone.
 
 ## 1. Current folder and design findings
 
@@ -50,18 +50,18 @@ Proposed minimal route structure, subject to the design questions above:
 
 Public components: SiteHeader, AnchorNavigation, MobileMenu, Hero, CategoryGrid, CategoryCard, simple CategorySelector, JobList, JobCard with external ApplyLink, Footer, and accessible empty/loading/error states. Preserve the observed guidance chips, lead checklist, template/copy control, ResourceAccordion, story placeholders and inactive alerts section only according to the agreed scope; do not invent content or activate excluded features.
 
-Admin components: protected layout/navigation, SignInForm, SignOutButton, JobsTable, JobForm, CategoriesTable, CategoryForm, PublishToggle, ImageUpload, inline validation and delete confirmation. Avoid an unnecessary UI framework. Use semantic HTML, visible focus states, labelled forms, keyboard navigation, adequate contrast and reduced-motion support.
+Admin components: protected layout/navigation, SignInForm, SignOutButton, JobsTable, JobForm, CategoriesTable, CategoryForm, PublishToggle, inline validation and delete confirmation. Avoid an unnecessary UI framework. Use semantic HTML, visible focus states, labelled forms, keyboard navigation, adequate contrast and reduced-motion support.
 
 ## 3. Database schema and RLS approach
 
-Use Supabase Postgres/Auth/Storage directly from Next.js. No Express or Render. Server-side validation belongs in server actions or route handlers when needed. Use the public/publishable key with the visitor's or admin's session; no service-role key is needed in application code.
+Use Supabase Postgres/Auth directly from Next.js. No Express or Render. Server-side validation belongs in server actions or route handlers when needed. Use the public/publishable key with the visitor's or admin's session; no service-role key is needed in application code.
 
 ### Tables
 
 | Table | Proposed columns and constraints |
 | --- | --- |
 | `categories` | `id uuid primary key`, `name text not null`, `slug text unique not null`, `description text`, `status text not null default 'draft' check (status in ('draft','published'))`, `sort_order integer not null default 0`, `created_at timestamptz`, `updated_at timestamptz`. |
-| `jobs` | `id uuid primary key`, `category_id uuid not null references categories(id) on delete restrict`, `title text not null`, `company_source text not null`, `description text not null`, `location_eligibility text not null`, `application_url text not null`, nullable `image_path text` and `image_alt text`, `status text not null default 'draft' check (status in ('draft','published'))`, `created_at timestamptz`, `updated_at timestamptz`. |
+| `jobs` | `id uuid primary key`, `category_id uuid not null references categories(id) on delete restrict`, `title text not null`, `company_source text not null`, `description text not null`, `location_eligibility text not null`, `application_url text not null`, `status text not null default 'draft' check (status in ('draft','published'))`, `created_at timestamptz`, `updated_at timestamptz`. |
 
 One category per job is the minimal assumption; confirm before implementation. Index the category foreign key and public listing predicates/order. Validate required lengths and HTTP(S) application URLs on the server; reject executable URL schemes. Render descriptions as plain text unless a later approved format is safely handled. Block category deletion while it has jobs, with a clear reassignment/delete instruction. Maintain updated_at consistently.
 
@@ -76,13 +76,13 @@ One category per job is the minimal assumption; confirm before implementation. I
 
 This follows [Supabase RLS guidance](https://supabase.com/docs/guides/database/postgres/row-level-security). No extra admin table or user-controlled role claims are needed for a single administrator.
 
-### Optional images
-Use one private `job-images` bucket. Restrict uploads to Marissa, a job-specific path, approved raster MIME types and a small application limit (proposed 2 MB). Store object paths, not expiring URLs, in jobs. Apply RLS policies to `storage.objects`: Marissa alone can insert/update/delete and inspect drafts; anonymous/ordinary users can read only objects referenced by a published job in a published category. Do not make the bucket public, since that would expose draft images by URL. Fetch through authorized Storage access with the publishable key; avoid long-lived public signed links or caches that outlive unpublishing. Keep cleanup and replacement explicit so draft uploads are manageable and deleted jobs do not accumulate unused files. [Storage access-control reference](https://supabase.com/docs/guides/storage/security/access-control).
+### Images
+No image uploads, image fields, Storage bucket or Storage policies in v1. Static design assets remain part of the public layout.
 
 ## 4. Admin dashboard structure
 
 - Sign-in: email/password is the simplest proposal; select the final method with Marissa. Signed-out dashboard requests redirect to login; a signed-in account with the wrong UUID is denied. Verify the session server-side on protected pages and on every mutation; include sign-out and safe expiry handling.
-- Jobs screen: title, category, company/source, draft/published status, edit and delete actions, Add job button. Form contains exactly the agreed fields, optional image/alt text, application URL, and publish toggle. Validate before saving and make unsaved changes/errors clear.
+- Jobs screen: title, category, company/source, draft/published status, edit and delete actions, Add job button. Form contains exactly the agreed fields, application URL, and publish toggle. Validate before saving and make unsaved changes/errors clear.
 - Categories screen: name, description, order, status, edit/delete and Add category. Explain that hiding a category hides its jobs and that deletion is blocked while jobs reference it.
 - A successful save must update public visibility promptly; avoid serving admin data from shared caches. Publish/unpublish should invalidate relevant public content. Never expose draft records in public HTML or payloads.
 - No analytics, subscriber list, messaging, extra accounts, employer workflow or multiple-admin controls.
@@ -97,20 +97,20 @@ Dependency installation and project creation require explicit approval under AGE
 3. **Public layout and browsing with local fixtures.** Add the approved category and listing layout, external Apply links, minimal category selection and agreed static guidance sections. Keep fixtures development-only and clearly labelled. End: locally test category changes, no-results state, link targets, accordions/copy control where retained, and narrow-screen layout.
 4. **Secured database and real public reads.** After the project owner provides an approved Supabase development project, add schema/policies and replace fixtures with published data. Provision the one admin UUID and a non-admin test identity. End: run the site plus direct API checks proving draft/hidden-category protection and denied anon/non-admin writes; run the build. Supabase dashboard or approved SQL tooling can apply migrations without adding a CLI dependency.
 5. **Private sign-in and category management.** Add session validation, protected dashboard and category forms/actions. End: run locally; test signed-out redirects, wrong-account denial, category create/edit/publish/unpublish/delete, validation and restricted deletion with referenced jobs.
-6. **Job management and optional images.** Add job forms, external URL editing, publishing/deletion and the private image workflow. End: run locally; create a draft, upload/replace an image, publish, apply externally, unpublish and delete; verify public/API/storage access changes and non-admin upload denial.
-7. **Acceptance and production-readiness checks.** Complete visual comparison, accessibility checks, session expiry, failed saves, missing images, empty states and the three-identity RLS matrix. End: `npm run build` and `npm run start` succeed locally; Marissa can rehearse managing real content. Produce a reviewed launch checklist including quotas, recovery and account ownership. Deploy only after explicit approval and resolution of Vercel Hobby eligibility; then verify the approved deployment. No purchase or automatic plan upgrade.
+6. **Job management.** Add job forms, external URL editing and publishing/deletion. End: run locally; create a draft, publish, apply externally, unpublish and delete; verify public/API access changes and denied non-admin writes.
+7. **Acceptance and production-readiness checks.** Complete visual comparison, accessibility checks, session expiry, failed saves, empty states and the three-identity RLS matrix. End: `npm run build` and `npm run start` succeed locally; Marissa can rehearse managing real content. Produce a reviewed launch checklist including quotas, recovery and account ownership. Deploy only after explicit approval and resolution of Vercel Hobby eligibility; then verify the approved deployment. No purchase or automatic plan upgrade.
 
 ## 6. Questions and missing information for Marissa
 
 1. Which Canva page/version is final? Can she provide exports/screenshots for all intended desktop/tablet/mobile states, font names, color values, illustration/logo files and permission to use them? Are viewer pages 3–5 unfinished or not loading? Is Figma forthcoming?
 2. Should v1 keep Resources, Success Stories, the listing template and inactive Newsletter section exactly as shown? Where should actual job cards and Apply buttons appear? Obtain an approved visual for this change rather than inventing one.
 3. Which are the real job categories: the four guidance types, the six role areas, or another agreed list? Can a job belong to more than one? Should guidance filters remain separate from job browsing?
-4. Supply final copy, resource content, approved testimonial quotes/consent if any, initial verified jobs, images/alt text, eligibility descriptions and direct application URLs. Who checks stale/expired links, and should stale jobs be unpublished manually?
+4. Supply final copy, resource content, approved testimonial quotes/consent if any, initial verified jobs, eligibility descriptions and direct application URLs. Who checks stale/expired links, and should stale jobs be unpublished manually?
 5. Are pay, schedule, employment type, phone and equipment requirements structured fields or description content? Confirm category ordering and handling of empty categories.
 6. Does “manages all content herself” include hero/navigation/resources/stories/footer, or just jobs/categories? Additional content editing needs an explicit scope decision.
 7. What email belongs to Marissa's admin account? Who owns the Supabase and Vercel projects, provisions her account and confirms its UUID? Agree on password recovery and secure handoff without putting credentials in Git or chat.
 8. Is the website strictly a personal, non-commercial portfolio? Vercel Hobby eligibility is a launch gate; a business/community job service may conflict even without payments. If ineligible, obtain approval for a revised hosting/budget decision; do not purchase or silently change the stack.
-9. Confirm acceptance of free-tier inactivity pauses, limited recovery, quota-related downtime and a manual backup/export process. Confirm the intended audience and estimated job/image volume.
+9. Confirm acceptance of free-tier inactivity pauses, limited recovery, quota-related downtime and a manual backup/export process. Confirm the intended audience and estimated job volume.
 
 ## 7. Free-tier limits and risks
 
@@ -123,8 +123,8 @@ Checked against official sources on 1 November 2026; recheck live plan terms and
 
 ### Supabase Free
 - Two active free projects, 500 MB database per project, 1 GB file storage, 50,000 monthly active users, 5 GB egress and a separate 5 GB cached egress allowance. Shared CPU/500 MB RAM means limited capacity; unlimited API request count does not mean unlimited compute or bandwidth. [Pricing](https://supabase.com/pricing), [billing guide](https://supabase.com/docs/guides/platform/billing-on-supabase).
-- Free projects can pause after a week of inactivity, interrupting listings and admin access until restored. Automatic backups and point-in-time recovery are not included; arrange manual database and image exports outside the repository. Free support is community-based. [Pricing](https://supabase.com/pricing).
-- Storage image transformations are unavailable on Free. Limit/compress uploads and avoid fetching more data/images than the page needs; images can exhaust storage and egress before job text does. [Billing guide](https://supabase.com/docs/guides/platform/billing-on-supabase).
+- Free projects can pause after a week of inactivity, interrupting listings and admin access until restored. Automatic backups and point-in-time recovery are not included; arrange manual database exports outside the repository. Free support is community-based. [Pricing](https://supabase.com/pricing).
+- Storage image transformations are unavailable on Free, but v1 uses no uploaded images or Storage bucket. Keep database reads bounded to control egress. [Billing guide](https://supabase.com/docs/guides/platform/billing-on-supabase).
 - Default Auth email delivery is for testing, restricted to project-team addresses and currently limited to two messages/hour; production recovery/invite delivery may need custom SMTP. Confirm a suitable approved arrangement before relying on email flows; do not add a mail provider or cost silently. [Auth SMTP guidance](https://supabase.com/docs/guides/auth/auth-smtp).
 
 Keep usage checks manual for this MVP (no new analytics or notification features). If free allowances or eligibility do not fit, pause the affected launch decision and request an explicit scope/hosting/budget decision. Never expose a Supabase secret/service-role key, commit .env.local, enable public writes, or start paid trials to bypass these constraints.
