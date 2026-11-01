@@ -1,6 +1,7 @@
 import Image from "next/image";
 import SiteHeader from "./site-header";
 import JobBrowsing from "./job-browsing";
+import ResourceAccordion from "./resource-accordion";
 import { categories, jobs } from "../lib/fixtures";
 import { navigation } from "./navigation";
 
@@ -26,9 +27,39 @@ export default function HomePage() {
           </div>
         </section>
         <JobBrowsing categories={categories} jobs={jobs} />
-        {navigation.slice(3).map(([label, id]) => (
-          <section key={id} id={id} className="section-placeholder" aria-label={label} tabIndex={-1} />
-        ))}
+        <section id="resources" className="resources supporting-section" aria-labelledby="resources-title" tabIndex={-1}>
+          <div className="container">
+            <p className="eyebrow">Practical support</p>
+            <h2 id="resources-title">Tools for the search, not just the scroll.</h2>
+            <p className="section-introduction">Open a guide for a short, useful checklist you can put to work today.</p>
+            <ResourceAccordion />
+          </div>
+        </section>
+        <section id="success-stories" className="success-stories supporting-section" aria-labelledby="stories-title" tabIndex={-1}>
+          <div className="container">
+            <p className="eyebrow">Community voices</p>
+            <h2 id="stories-title">A place for real member stories.</h2>
+            <p className="section-introduction">The spaces below are placeholders, not published testimonials or claims of outcomes.</p>
+            <div className="story-grid">
+              {[0, 1].map((index) => (
+                <div className="story-card" key={index}>
+                  <p className="story-label">Placeholder · not a testimonial</p>
+                  <p>[Member story placeholder — add an approved quote]</p>
+                  <p className="story-role">[Role / location placeholder]</p>
+                </div>
+              ))}
+            </div>
+            <p className="story-permission">Publish only with member permission.</p>
+          </div>
+        </section>
+        <section id="newsletter" className="newsletter supporting-section" aria-labelledby="newsletter-title" tabIndex={-1}>
+          <div className="container newsletter-panel">
+            <p className="eyebrow">Fresh leads, thoughtfully shared</p>
+            <h2 id="newsletter-title">Job alerts are coming.</h2>
+            <p className="newsletter-message">Email signup is not available on this page yet. Meanwhile, explore the category guides and use the verification checklist to assess opportunities you find.</p>
+            <a className="button" href="#job-categories">Explore job guidance</a>
+          </div>
+        </section>
       </main>
       <footer className="site-footer">
         <div className="container footer-inner">
