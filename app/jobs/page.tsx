@@ -6,6 +6,8 @@ import SiteFooter from "../site-footer";
 import pageStyles from "../categories/[slug]/page.module.css";
 import styles from "./page.module.css";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "All Remote Jobs | Real Work From Home Jobs",
   description: "Browse all published remote jobs by category and find the opportunities that fit.",

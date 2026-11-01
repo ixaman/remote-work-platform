@@ -8,6 +8,8 @@ import styles from "./page.module.css";
 
 type JobPageProps = { params: Promise<{ id: string }> };
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata({ params }: JobPageProps): Promise<Metadata> {
   const job = await getJobById((await params).id);
   if (!job) notFound();

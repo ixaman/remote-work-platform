@@ -13,3 +13,4 @@
 - No image uploads in v1. Remove the image fields and bucket from the plan.
 - Vercel Hobby eligibility must be confirmed before launch.
 - /jobs lists all published jobs with category filter links and pagination (12 per page); the header nav 'Job Listings' links to it.
+- Public pages read from Supabase through the lib/ helpers with the publishable key only; sample fixtures removed.

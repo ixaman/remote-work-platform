@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import JobCard from "./job-card";
-import type { Category, Job } from "../lib/fixtures";
+import type { Category, PublicJob as Job } from "../lib/types";
 
 const filters = ["International", "Non-phone", "1099 / Contract", "Flexible income"];
 const icons = ["◎", "▤", "◇", "✳️"];

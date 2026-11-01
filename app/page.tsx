@@ -2,13 +2,13 @@ import Image from "next/image";
 import SiteHeader from "./site-header";
 import JobBrowsing from "./job-browsing";
 import ResourceAccordion from "./resource-accordion";
-import { categories } from "../lib/fixtures";
-import { getCategoryBySlug, getJobsByCategory } from "../lib/categories";
+import { getAllCategories, getJobsByCategory } from "../lib/categories";
 import SiteFooter from "./site-footer";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
-  const categoryResults = await Promise.all(categories.map((category) => getCategoryBySlug(category.slug)));
-  const publishedCategories = categoryResults.filter((category) => category !== undefined);
+  const publishedCategories = await getAllCategories();
   const jobs = (await Promise.all(publishedCategories.map((category) => getJobsByCategory(category.slug)))).flat();
 
   return (

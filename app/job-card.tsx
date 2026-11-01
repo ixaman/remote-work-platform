@@ -1,4 +1,4 @@
-import type { Job } from "../lib/fixtures";
+import type { PublicJob as Job } from "../lib/types";
 
 export default function JobCard({ job, categoryName }: { job: Job; categoryName: string | undefined }) {
   return (
