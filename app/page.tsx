@@ -23,7 +23,7 @@ export default async function HomePage() {
               <h1 id="hero-title">Find Real Work From Home Opportunities.</h1>
               <p className="hero-introduction">A welcoming community sharing free job leads, practical advice, and career support. Start with clear guidance, then check every opportunity for yourself.</p>
               <div className="hero-actions">
-                <a className="button" href="#job-categories">Browse Job Categories</a>
+                <a className="button" href="/categories">Browse Job Categories</a>
                 <a className="button button-outline" href="#newsletter">Join Job Alerts</a>
               </div>
               <p className="hero-note">Free resources. Clear requirements. No invented openings.</p>
