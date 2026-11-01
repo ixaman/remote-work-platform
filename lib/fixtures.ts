@@ -85,4 +85,52 @@ export const jobs: Job[] = [
     description: "Fake sample role collecting public research. Illustrative freelance project at £80/project, around four weekend hours; no calls. Own computer and internet required; project availability varies.",
     application_url: "https://example.com/apply", status: "published",
   },
+  {
+    id: "sample-7", title: "Sample: Remote Scheduling Assistant", category_slug: "international", created_at: "2026-10-31T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-8", title: "Sample: Community Email Coordinator", category_slug: "non-phone", created_at: "2026-10-30T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-9", title: "Sample: Contract Proofreader", category_slug: "contract", created_at: "2026-10-29T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-10", title: "Sample: Weekend Data Assistant", category_slug: "flexible-income", created_at: "2026-10-28T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-11", title: "Sample: International Research Assistant", category_slug: "international", created_at: "2026-10-27T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-12", title: "Sample: Records Review Assistant", category_slug: "non-phone", created_at: "2026-10-26T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-13", title: "Sample: Contract Project Assistant", category_slug: "contract", created_at: "2026-10-25T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
+  {
+    id: "sample-14", title: "Sample: Flexible Content Assistant", category_slug: "flexible-income", created_at: "2026-10-24T06:00:00Z",
+    company_source: "Fictional Sample Team (fake employer)", location_eligibility: "Sample eligibility: confirm country and time-zone requirements.",
+    description: "Fake sample role for previewing job listings. Illustrative part-time work, 10 hours/week at $20/hour; no calls. Own computer and reliable internet required. This is not an active opening.",
+    application_url: "https://example.com/apply", status: "published",
+  },
 ];

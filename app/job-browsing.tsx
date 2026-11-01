@@ -70,6 +70,9 @@ export default function JobBrowsing({ categories, jobs }: { categories: Category
             {visibleJobs.length === 0 ? <p className="job-card empty-state">No jobs in this category yet.</p> : visibleJobs.map((job) => (
               <JobCard key={job.id} job={job} categoryName={allCategories.find((category) => category.slug === job.category_slug)?.name} />
             ))}
+            {selected === "all" && (
+              <a className="guidance-link" href="/jobs">View all jobs →</a>
+            )}
             {selectedCategory && (
               <a className="guidance-link" href={`/categories/${selectedCategory.slug}`}>View all {categoryJobs.length} jobs in {selectedCategory.name} →</a>
             )}

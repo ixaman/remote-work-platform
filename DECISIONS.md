@@ -11,3 +11,4 @@
 - Pay, schedule and employment type go in the job description (no separate fields).
 - No image uploads in v1. Remove the image fields and bucket from the plan.
 - Vercel Hobby eligibility must be confirmed before launch.
+- /jobs lists all published jobs with category filter links and pagination (12 per page); the header nav 'Job Listings' links to it.
