@@ -1,0 +1,4 @@
+.filters { display: flex; flex-wrap: wrap; align-items: end; gap: 16px; margin-top: 24px; }
+.filters > div { flex: 1 1 200px; max-width: 320px; }
+.pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; margin-top: 24px; }
+.warning { padding: 16px; border: 1px solid #a7bcb4; border-radius: 10px; background: #f8eaca; overflow-wrap: anywhere; }

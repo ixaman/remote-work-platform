@@ -26,10 +26,7 @@ export default async function AdminPage() {
               <div><dt>Published</dt><dd>{failed ? "—" : results[index * 2].count ?? 0}</dd></div>
               <div><dt>Draft</dt><dd>{failed ? "—" : results[index * 2 + 1].count ?? 0}</dd></div>
             </dl>
-            {label === "Categories" ? <a href="/admin/categories" className="button">Categories</a> : <>
-              <a role="link" aria-disabled="true" aria-describedby={`soon-${index}`} className={styles.disabled}>{label}</a>
-              <span id={`soon-${index}`} className={styles.soon}>Coming soon</span>
-            </>}
+            <a href={`/admin/${label.toLowerCase()}`} className="button">{label}</a>
           </section>
         ))}
       </div>
