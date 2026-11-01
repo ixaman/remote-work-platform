@@ -41,6 +41,9 @@ export default function JobBrowsing({ categories, jobs }: { categories: Category
               </article>
             ))}
           </div>
+          {allCategories.length > 4 && (
+            <p><a className="guidance-link" href="/categories">View all categories →</a></p>
+          )}
           <div className="role-shortcuts">
             <h3>Explore common role areas</h3>
             <p>Choose a chip to highlight related guidance—not to search active openings.</p>
