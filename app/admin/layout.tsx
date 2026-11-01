@@ -15,6 +15,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
       <header className={styles.topBar}>
         <a href="/admin" className={styles.brand}>Real Work From Home Jobs</a>
         <nav aria-label="Admin account" className={styles.account}>
+          <a href="/admin/categories">Categories</a>
           <a href="/">View site</a>
           <span className={styles.email}>{user.email}</span>
           <form action={signOut}><button className="button button-outline" type="submit">Sign out</button></form>

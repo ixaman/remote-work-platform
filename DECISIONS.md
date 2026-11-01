@@ -15,3 +15,4 @@
 - /jobs lists all published jobs with category filter links and pagination (12 per page); the header nav 'Job Listings' links to it.
 - Public pages read from Supabase through the lib/ helpers with the publishable key only; sample fixtures removed.
 - Admin auth: Supabase email/password, no sign-up or password-reset UI in v1. Admin identity is enforced by the is_admin() function in the database; the app's requireAdmin() runs on every admin page and action.
+- Admin can create, edit, publish/hide and delete categories. A category with jobs can't be deleted; hide it instead.
