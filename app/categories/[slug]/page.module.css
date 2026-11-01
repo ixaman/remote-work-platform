@@ -1,0 +1,11 @@
+.pageHeader { padding-block: 80px; }
+.description { max-width: 700px; }
+.count { margin: 24px 0 0; }
+.listings { padding-block: 110px; }
+.backLink { display: inline-block; margin-bottom: 32px; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+
+@media (max-width: 760px) {
+  .pageHeader, .listings { padding-block: 56px; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}

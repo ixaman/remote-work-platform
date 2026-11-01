@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import JobCard from "./job-card";
 import type { Category, Job } from "../lib/fixtures";
 
 const filters = ["International", "Non-phone", "1099 / Contract", "Flexible income"];
@@ -59,17 +60,7 @@ export default function JobBrowsing({ categories, jobs }: { categories: Category
           <div id="job-results" className="job-results" role="region" aria-label="Job listings">
             <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">{visibleJobs.length === 0 ? "No jobs in this category yet." : `${visibleJobs.length} sample jobs shown. ${selected === "all" ? "All categories" : publishedCategories.find((category) => category.slug === selected)?.name}.`}</p>
             {visibleJobs.length === 0 ? <p className="job-card empty-state">No jobs in this category yet.</p> : visibleJobs.map((job) => (
-              <article key={job.id} className="job-card" aria-labelledby={`title-${job.id}`}>
-                <p className="sample-badge">Sample only — no active opening shown</p>
-                <h3 id={`title-${job.id}`}>{job.title}</h3>
-                <p className="job-category">{publishedCategories.find((category) => category.slug === job.category_slug)?.name}</p>
-                <dl className="job-details">
-                  <div><dt>Company/source</dt><dd>{job.company_source}</dd></div>
-                  <div><dt>Location/eligibility</dt><dd>{job.location_eligibility}</dd></div>
-                </dl>
-                <p className="job-description">{job.description}</p>
-                <a className="button" href={job.application_url} target="_blank" rel="noopener noreferrer">Apply<span className="sr-only"> for {job.title} (opens in a new tab)</span></a>
-              </article>
+              <JobCard key={job.id} job={job} categoryName={publishedCategories.find((category) => category.slug === job.category_slug)?.name} />
             ))}
           </div>
         </div>

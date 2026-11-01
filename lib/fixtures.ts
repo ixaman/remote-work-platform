@@ -40,6 +40,11 @@ export const categories: Category[] = [
     description: "Consider part-time gigs, project work, weekend work, and freelance tasks. Compare pay structure, time commitment, and any expenses first.",
     status: "published", sort_order: 3,
   },
+  {
+    id: "sample-empty", slug: "sample-empty", name: "Sample: More Remote Opportunities",
+    description: "Sample category for previewing the empty state. No jobs have been added here yet.",
+    status: "published", sort_order: 4,
+  },
 ];
 
 export const jobs: Job[] = [
