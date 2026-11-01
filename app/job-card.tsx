@@ -1,6 +1,8 @@
 import type { PublicJob as Job } from "../lib/types";
+import { getSafeApplyUrl } from "../lib/safe-url";
 
 export default function JobCard({ job, categoryName }: { job: Job; categoryName: string | undefined }) {
+  const applyUrl = getSafeApplyUrl(job.application_url);
   return (
     <article className="job-card" aria-labelledby={`title-${job.id}`}>
       <p className="sample-badge">Sample only — no active opening shown</p>
@@ -12,7 +14,7 @@ export default function JobCard({ job, categoryName }: { job: Job; categoryName:
       </dl>
       <p className="job-description">{job.description}</p>
       <div className="job-card-actions">
-        <a className="button" href={job.application_url} target="_blank" rel="noopener noreferrer">Apply<span className="sr-only"> for {job.title} (opens in a new tab)</span></a>
+        {applyUrl && <a className="button" href={applyUrl} target="_blank" rel="noopener noreferrer">Apply<span className="sr-only"> for {job.title} (opens in a new tab)</span></a>}
         <a className="button button-outline" href={`/jobs/${encodeURIComponent(job.id)}`}>View<span className="sr-only"> {job.title}</span></a>
       </div>
     </article>

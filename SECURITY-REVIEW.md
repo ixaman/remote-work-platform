@@ -18,6 +18,13 @@ None identified.
 4. **Database validation weaker than forms — `supabase/schema.sql:7–11,19–24`.** Direct authorized API writes bypass form length, slug-format and sort-range rules; URL validation is only a prefix/whitespace regex. **Suggested fix:** mirror relevant validation constraints in SQL.
 5. **Unbounded public reads — `app/page.tsx:11–12`; `lib/categories.ts:43–62`.** Uncached anonymous requests can fetch every category/job, increasing database and bandwidth consumption as content grows. **Suggested fix:** bound homepage queries and paginate category listings.
 
+## Remediation status
+
+- **Fixed — finding 1:** `.env*` is ignored with `.env.example` explicitly allowed.
+- **Fixed — finding 2:** Apply links are validated when rendered; only HTTP(S) URLs without embedded credentials are allowed. Invalid URLs hide Apply buttons and show plain-text unavailability on job pages.
+- **Fixed — finding 3:** All routes configure `nosniff`, strict-origin referrers, denied framing, and disabled camera/microphone/geolocation permissions. No Content-Security-Policy added.
+- **Deferred — findings 4 and 5:** Database validation and public query limits remain unchanged.
+
 ## Review coverage and evidence
 
 Reviewed 1 November 2026 at `6b8ff58`: project source/configuration, local environment files, all 22 commits available through Git refs/reflogs (non-shallow repository), and `npm audit`. Live Supabase policies/Auth settings, account ownership, and deployed response headers were not verified. No code, schema, or configuration changed.

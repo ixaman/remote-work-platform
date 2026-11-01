@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getJobById } from "../../../lib/categories";
+import { getSafeApplyUrl } from "../../../lib/safe-url";
 import SiteHeader from "../../site-header";
 import SiteFooter from "../../site-footer";
 import pageStyles from "../../categories/[slug]/page.module.css";
@@ -20,11 +21,12 @@ export default async function JobPage({ params }: JobPageProps) {
   const job = await getJobById((await params).id);
   if (!job) notFound();
   const categoryHref = `/categories/${encodeURIComponent(job.category.slug)}`;
-  const applyLink = (
-    <a className="button" href={job.application_url} target="_blank" rel="noopener noreferrer">
+  const applyUrl = getSafeApplyUrl(job.application_url);
+  const applyLink = applyUrl ? (
+    <a className="button" href={applyUrl} target="_blank" rel="noopener noreferrer">
       Apply now<span className="sr-only"> for {job.title} (opens in a new tab)</span>
     </a>
-  );
+  ) : <p>Application link unavailable</p>;
 
   return (
     <>
