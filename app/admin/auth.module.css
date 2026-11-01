@@ -1,0 +1,36 @@
+.login { min-height: 100dvh; padding: 80px max(24px, calc((100% - 1100px) / 2)); display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; background: var(--mint); }
+.loginIntro { min-width: 0; }
+.brand { font-weight: 700; overflow-wrap: anywhere; }
+.loginIntro .brand { display: inline-block; margin-bottom: 64px; }
+.loginIntro > p:last-child { color: #406763; }
+.loginCard, .panel { padding: 36px; border: 1px solid #c4ded4; border-radius: 22px; background: var(--paper); }
+.loginCard h2, .panel h2 { margin: 0 0 24px; font-size: 24px; }
+.form { display: grid; gap: 12px; }
+.form label { font-weight: 600; }
+.form input { width: 100%; min-width: 0; min-height: 48px; padding: 12px; border: 1px solid #406763; border-radius: 10px; background: white; color: var(--teal); font: inherit; font-size: 16px; }
+.form input:focus-visible { outline: 3px solid var(--teal); outline-offset: 3px; }
+.form button { margin-top: 12px; cursor: pointer; }
+.back { display: inline-block; margin-top: 24px; text-decoration: underline; }
+.error { padding: 16px; border: 1px solid #a53932; border-radius: 10px; background: #fff3ef; color: #7a251f; }
+.admin { min-height: 100dvh; }
+.topBar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; padding: 24px max(24px, calc((100% - 1200px) / 2)); border-bottom: 1px solid #c4ded4; background: white; }
+.account { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; min-width: 0; }
+.account > a { text-decoration: underline; }
+.account button { min-height: 44px; padding: 10px 20px; cursor: pointer; }
+.email { overflow-wrap: anywhere; min-width: 0; }
+.content { width: min(1200px, calc(100% - 48px)); margin: 0 auto; padding-block: 64px; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 32px; }
+.counts { display: flex; flex-wrap: wrap; gap: 48px; margin: 0 0 32px; }
+.counts dt { color: #406763; }
+.counts dd { margin: 8px 0 0; font-size: 32px; font-weight: 700; }
+.disabled { display: inline-block; padding: 12px 24px; border: 1px solid #a7bcb4; border-radius: 999px; color: #526d65; background: #e8f0e8; cursor: not-allowed; }
+.disabled:hover { text-decoration: none; }
+.soon { display: inline-block; margin: 12px; color: #406763; }
+@media (max-width: 760px) {
+  .login { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 40px 24px; align-content: center; }
+  .loginIntro .brand { margin-bottom: 40px; }
+  .loginCard, .panel { padding: 24px; }
+  .grid { grid-template-columns: minmax(0, 1fr); }
+  .account { gap: 16px; }
+  .content { padding-block: 40px; }
+}
