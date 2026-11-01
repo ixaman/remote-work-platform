@@ -1,12 +1,35 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { navigation } from "./navigation";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const header = useRef<HTMLElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const element = header.current;
+    if (!element) return;
+
+    const updateScroll = () => {
+      element.dataset.scrolled = String(window.scrollY > 0);
+    };
+    const updateHeight = () => {
+      document.documentElement.style.setProperty("--header-height", `${element.getBoundingClientRect().height}px`);
+    };
+    const observer = new ResizeObserver(updateHeight);
+    observer.observe(element);
+    updateHeight();
+    updateScroll();
+    window.addEventListener("scroll", updateScroll, { passive: true });
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", updateScroll);
+      document.documentElement.style.removeProperty("--header-height");
+    };
+  }, []);
 
   function closeMenu() {
     setOpen(false);
@@ -14,7 +37,7 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className="site-header" onKeyDown={(event) => {
+    <header ref={header} className="site-header" onKeyDown={(event) => {
       if (event.key === "Escape" && open) {
         event.preventDefault();
         closeMenu();
