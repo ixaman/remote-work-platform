@@ -4,6 +4,7 @@ import { categoryOptions, listJobs } from "./data";
 import { isId } from "./validation";
 import styles from "../categories/categories.module.css";
 import jobStyles from "./jobs.module.css";
+import AdminIcon from "../admin-icon";
 
 export const dynamic = "force-dynamic";
 const notices: Record<string, string> = {
@@ -27,8 +28,7 @@ export default async function JobsPage({ searchParams }: {
     return `/admin/jobs?${filters}`;
   }
   return <>
-    <a className={styles.back} href="/admin">← Dashboard</a>
-    <div className={styles.heading}><div><p className="eyebrow">Administration</p><h1>Jobs</h1></div><a href="/admin/jobs/new" className="button">New job</a></div>
+    <div className={styles.heading}><div><p className="eyebrow">Administration</p><h1>Jobs</h1></div><a href="/admin/jobs/new" className="button"><AdminIcon name="plus" />New job</a></div>
     <p>Manage job details and visibility. Published jobs in draft categories stay hidden from the public site.</p>
     {notice && <p role="status" className={styles.success}>{notice}</p>}
     {params.error && <p role="alert" className={styles.error}>Unable to change the job status. Please try again.</p>}
@@ -45,7 +45,7 @@ export default async function JobsPage({ searchParams }: {
     {categories === null && <p role="alert" className={styles.error}>Unable to load category filters. Please reload and try again.</p>}
     {result.error ? <div role="alert" className={styles.error}><p>Unable to load jobs. Please try again.</p><a href={pageUrl(page)}>Reload jobs</a></div>
       : jobs.length === 0 ? <section className={styles.panel}><h2>No jobs found</h2><p>{status !== "all" || category || page > 1 ? "No jobs match these filters on this page. Try another page or clear the filters." : "Create your first job to get started."}</p><a href="/admin/jobs/new" className="button">New job</a></section>
-      : <table className={styles.table}>
+      : <table className={`${styles.table} ${styles.jobsTable}`}>
         <caption className="sr-only">Jobs, newest first. Page {page}, up to 20 jobs per page. Dates use UTC.</caption>
         <thead><tr>{["Title", "Category", "Company/source", "Status", "Created", "Actions"].map((label) => <th key={label} scope="col">{label}</th>)}</tr></thead>
         <tbody>{jobs.map((job) => <tr key={job.id}>
@@ -53,14 +53,14 @@ export default async function JobsPage({ searchParams }: {
           <td data-label="Category">{job.category?.name ?? "Unavailable category"}{job.category?.status === "draft" ? " (draft)" : ""}</td>
           <td data-label="Company/source">{job.company_source}</td>
           <td data-label="Status"><span className={`${styles.badge} ${job.status === "published" ? styles.published : styles.draft}`}>{job.status}</span></td>
-          <td data-label="Created"><time dateTime={job.created_at}>{new Date(job.created_at).toISOString().slice(0, 10)}</time></td>
+          <td data-label="Created"><time dateTime={job.created_at}>{new Date(job.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" })}</time></td>
           <td data-label="Actions"><div className={styles.actions}>
             <a href={`/admin/jobs/${job.id}/edit`}>Edit<span className="sr-only"> {job.title}</span></a>
             <form action={setJobStatus}><input type="hidden" name="id" value={job.id} /><input type="hidden" name="status" value={job.status === "published" ? "draft" : "published"} />
               <button type="submit" className={styles.textButton}>{job.status === "published" ? "Draft" : "Publish"}<span className="sr-only"> {job.title}</span></button>
             </form>
             {job.status === "published" && job.category?.status === "published" && <a href={`/jobs/${job.id}`} target="_blank" rel="noopener noreferrer">View<span className="sr-only"> {job.title} (opens in a new tab)</span></a>}
-            <a href={`/admin/jobs/${job.id}/delete`}>Delete<span className="sr-only"> {job.title}</span></a>
+            <a className={styles.deleteLink} href={`/admin/jobs/${job.id}/delete`}>Delete<span className="sr-only"> {job.title}</span></a>
           </div></td>
         </tr>)}</tbody>
       </table>}

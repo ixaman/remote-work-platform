@@ -26,7 +26,7 @@ export default async function AdminPage() {
               <div><dt>Published</dt><dd>{failed ? "—" : results[index * 2].count ?? 0}</dd></div>
               <div><dt>Draft</dt><dd>{failed ? "—" : results[index * 2 + 1].count ?? 0}</dd></div>
             </dl>
-            <a href={`/admin/${label.toLowerCase()}`} className="button">{label}</a>
+            <a href={`/admin/${label.toLowerCase()}`} className="button">Manage {label.toLowerCase()}</a>
           </section>
         ))}
       </div>

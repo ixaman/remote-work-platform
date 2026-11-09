@@ -21,3 +21,5 @@
 - The super admin creates admins with a name, email and password, and can set their passwords or remove them. No signup, invite-email or password-reset pages are added; the signup setting stays unchanged.
 - Admins have full job and category access but no user management. Every users page and action requires server-side super-admin authorization.
 - The Supabase secret key is used only on the server for this feature, through lib/supabase/admin.ts and app/admin/users/actions.ts; it is never exposed to clients, committed or logged.
+- Admin UI: use the approved Teal studio concept, with a dark teal sidebar, mint active navigation, white content panels and serif headings throughout dashboard, jobs, categories, users and their forms. On mobile, navigation collapses behind a menu button.
+- Show the signed-in admin's saved name and initials in the header. The account popover reveals their email, role and Sign out on hover or activation, with keyboard and touch support. Existing server-side authorization and super-admin-only user management stay in place.
