@@ -72,4 +72,6 @@ create policy admins_select on public.admins
 for select to authenticated
 using (user_id = (select auth.uid()) or (select public.is_super_admin()));
 
+-- Visitors can still evaluate policies that call is_admin(); it returns false for them.
+grant execute on function public.is_admin() to anon;
 commit;
