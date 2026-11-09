@@ -8,7 +8,8 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Admin | Real Work From Home Jobs", robots: { index: false, follow: false } };
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
-  const { user } = await requireAdmin();
+  const { user, supabase } = await requireAdmin();
+  const { data: isSuperAdmin, error } = await supabase.rpc("is_super_admin");
   return (
     <div className={styles.admin}>
       <a className="skip-link" href="#admin-content">Skip to content</a>
@@ -17,6 +18,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
         <nav aria-label="Admin account" className={styles.account}>
           <a href="/admin/categories">Categories</a>
           <a href="/admin/jobs">Jobs</a>
+          {!error && isSuperAdmin === true && <a href="/admin/users">Users</a>}
           <a href="/">View site</a>
           <span className={styles.email}>{user.email}</span>
           <form action={signOut}><button className="button button-outline" type="submit">Sign out</button></form>
