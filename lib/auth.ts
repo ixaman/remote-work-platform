@@ -15,6 +15,15 @@ export async function requireAdmin() {
   return { user, supabase };
 }
 
+export async function requireSuperAdmin() {
+  const supabase = await createClient();
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) redirect("/login");
+  const { data: isSuperAdmin, error } = await supabase.rpc("is_super_admin");
+  if (error || isSuperAdmin !== true) redirect("/admin");
+  return { user, supabase };
+}
+
 export function adminDestination(value: unknown): string {
   if (typeof value !== "string" || !/^\/admin(?:\/|\?|#|$)/.test(value)) return "/admin";
   // Reject URL normalization tricks, control characters, and encoded path separators.

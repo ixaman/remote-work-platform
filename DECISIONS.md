@@ -17,3 +17,7 @@
 - Admin auth: Supabase email/password, no sign-up or password-reset UI in v1. Admin identity is enforced by the is_admin() function in the database; the app's requireAdmin() runs on every admin page and action.
 - Admin can create, edit, publish/hide and delete categories. A category with jobs can't be deleted; hide it instead.
 - Admin can create, edit, publish/draft and delete jobs. Application URLs must be http(s). Published jobs in draft categories stay hidden from the public site.
+- The existing account bfd2f5f9-6a96-4b70-8b4a-a405b94c8412 (Asad) is the sole super admin; roles live in public.admins.
+- The super admin creates admins with a name, email and password, and can set their passwords or remove them. No signup, invite-email or password-reset pages are added; the signup setting stays unchanged.
+- Admins have full job and category access but no user management. Every users page and action requires server-side super-admin authorization.
+- The Supabase secret key is used only on the server for this feature, through lib/supabase/admin.ts and app/admin/users/actions.ts; it is never exposed to clients, committed or logged.
